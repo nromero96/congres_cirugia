@@ -54,7 +54,7 @@
                       <div id="contador" class="d-flex mb-1">
                           <div class="text-white"><span id="dias" style="font-size: 25px;font-weight: bolder;"></span> <small style="font-size: 15px;">DÍAS Y </small><span id="horas" style="font-size: 25px;font-weight: bolder;"></span> <small style="font-size: 15px;">HORAS</small></div>
                       </div>
-                      <a href="https://www.cidermperu.org/vii-maraton-de-dermatologia-pediatrica-2024/" target="_blank" class="btn btn-light text-dark"><b>VER PROGRAMA</b></a>
+                      <a href="https://sociedadperuanadecirugiaplastica.com/congreso/programa-preliminar/" target="_blank" class="btn btn-light text-dark"><b>VER PROGRAMA</b></a>
                     </div>
                   </div>
             </div>
