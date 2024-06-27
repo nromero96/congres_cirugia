@@ -47,7 +47,7 @@
                         <div class="auth-cover">
                             <div class="position-relative">
                                 <h2 class="mt-5 text-white px-2" style="font-weight: bold;">{{__('23º Congreso Peruano de Cirugía Plástica')}}</h2>
-                                <p class="text-white">{{ __('23º Congreso Peruano de Cirugía Plástica') }}</p>
+                                <p class="text-white">{{ __('Swissôtel Lima, 06 al 09 de Noviembre del 2024') }}</p>
                             </div>
                         </div>
 
