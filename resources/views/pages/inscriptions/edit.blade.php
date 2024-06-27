@@ -61,7 +61,7 @@
                         <div class="widget-content widget-content-area pt-0">
                             <div class="row g-3">
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold mb-0">{{__("Nombre")}}:</label><br>
+                                    <label class="form-label fw-bold mb-0">{{__("Nombres")}}:</label><br>
                                     <span class="bx-text">{{ $inscription->user_name }}</span>
                                 </div>
                                 <div class="col-md-4">
@@ -216,7 +216,7 @@
                                             <div class="col-md-4">
                                                 <label class="text-muted mb-0">{{__("Nombre completo")}}:</label><br>
                                                 <input type="hidden" name="accompanist_id" id="accompanist_id" value="{{ $inscription->accompanist_id }}">
-                                                <input type="text" name="accompanist_name" class="form-control" id="accompanist_name" value="{{ $inscription->accompanist_name }}" placeholder="Nombre">
+                                                <input type="text" name="accompanist_name" class="form-control" id="accompanist_name" value="{{ $inscription->accompanist_name }}" placeholder="Nombre y apellidos">
                                             </div>
                                             <div class="col-md-3">
                                                 <label class="text-muted mb-0">{{__("Tipo documento")}}:</label><br>
