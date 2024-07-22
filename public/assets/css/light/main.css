@@ -633,11 +633,12 @@ span.red {
 }
 
 .form-check-input {
-  background-color: #e0e6ed;
+  background-color: #f7f7f7;
   border-color: #e0e6ed;
   width: 17px;
   height: 17px;
   margin-top: 0.21em;
+  cursor: pointer;
   transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 .form-check-input:focus {
@@ -655,6 +656,7 @@ span.red {
 }
 .form-check .form-check-input {
   margin-left: -1.6em;
+  border: 1px solid #0F3567;
 }
 
 .form-check-input:checked[type=checkbox]:not([role=switch]) {

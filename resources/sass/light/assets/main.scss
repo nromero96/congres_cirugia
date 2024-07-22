@@ -743,11 +743,12 @@ span {
 }
 
 .form-check-input {
-  background-color: #e0e6ed;
+  background-color: #f7f7f7;
   border-color: #e0e6ed;
   width: 17px;
   height: 17px;
   margin-top: 0.21em;
+  cursor: pointer;
   transition: background-color .15s ease-in-out,background-position .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   
   &:focus {
@@ -768,6 +769,7 @@ span {
 
   .form-check-input {
     margin-left: -1.6em;
+    border:1px solid $primary;
   }
 }
 
