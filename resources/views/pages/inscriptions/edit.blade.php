@@ -243,18 +243,25 @@
                                     <div id="dv_document_file">
                                         <label class="form-label mt-3">
                                         <span class="fw-bold">{{ __('Documento probatorio de categoría ') }} ({{ $inscription->category_inscription_name }}):</span></label><br>
-                                        <div class="mt-1">
+                                        <div class="mt-1 d-flex">
                                             @if ($inscription->document_file != null || $inscription->document_file != '')
                                             <a href="{{ asset('storage/uploads/document_file').'/'.$inscription->document_file}}" class="badge badge-light-primary text-start me-2 bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Descargar" target="_blank">
                                                 {{ $inscription->document_file }}
                                                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg>
                                             </a>
+                                            <div class="mt-0">
+                                                <a href="#" class="px-1 py-1 text-danger" id="change_document_file">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pen-line"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg>
+                                                </a>
+                                            </div>
                                             @else
                                             <span class="badge badge-light-danger mb-2 text-start me-2 bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="No hay documento" target="_blank">
                                                 {{ __('No hay documento') }}
                                             </span>
                                             @endif
-                                            <label for="document_file" class="mb-0 d-block">Este nuevo documento reemplazará al anterior</label>
+                                        </div>
+                                        <div class="mt-1 d-block  @if($inscription->document_file != null || $inscription->document_file != '') d-none @endif" id="dv_document_file_upload">
+                                            <label for="document_file" class="mb-0 d-block">Adjuntar documento probatorio de categoría</label>
                                             <input type="file" name="document_file" class="form-control form-control-sm mt-1 p-1" id="document_file">
                                         </div>
                                     </div>
@@ -302,16 +309,26 @@
 
                                         @if($inscription->voucher_file != null || $inscription->voucher_file != '')
                                             <div class="row mt-1">
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 d-flex">
                                                     <div class="mt-1">
                                                         <a href="{{ asset('storage/uploads/voucher_file').'/'.$inscription->voucher_file}}" class="badge badge-light-primary text-start me-2 bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Descargar" target="_blank">
                                                             {{ $inscription->voucher_file }}
                                                             <svg width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg>
                                                         </a>
                                                     </div>
+                                                    <div class="mt-1">
+                                                        <a href="#" class="px-1 py-1 text-danger" id="change_voucher_file">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-pen-line"><path d="m18 5-2.414-2.414A2 2 0 0 0 14.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><path d="M8 18h1"/></svg>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endif
+
+                                        <div class="mt-1 @if($inscription->voucher_file != null || $inscription->voucher_file != '') d-none @endif" id="dv_voucher_file">
+                                            <label for="voucher_file" class="mb-0 d-block">Adjuntar comprobante de pago</label>
+                                            <input type="file" name="voucher_file" class="form-control form-control-sm mt-1 p-1" id="voucher_file">
+                                        </div>
 
                                         @if ($inscription->payment_method == 'Tarjeta' && $paymentcard != null)
                                         <div class="row mt-1">
@@ -446,7 +463,8 @@ document.addEventListener("DOMContentLoaded", function() {
     priceAccompanist.addEventListener('keyup', updateTotal);
 
     //if accompanist is checked
-    accompanist.addEventListener('change', (event) => {
+    if(accompanist){
+        accompanist.addEventListener('change', (event) => {
         if (event.target.checked) {
             dvAccompanist.classList.remove('d-none');
             accompanistId.setAttribute('required', 'required');
@@ -461,6 +479,34 @@ document.addEventListener("DOMContentLoaded", function() {
             accompanistTypeDocument.removeAttribute('required');
             accompanistNumDocument.removeAttribute('required');
             accompanistSolapin.removeAttribute('required');
+        }
+    });
+    }
+
+
+    //if click change_document_file
+    const changeDocumentFile = document.getElementById('change_document_file');
+    const dvDocumentFileUpload = document.getElementById('dv_document_file_upload');
+    const inputDocumentFile = document.getElementById('document_file');
+
+    changeDocumentFile.addEventListener('click', (event) => {
+        event.preventDefault();
+        dvDocumentFileUpload.classList.toggle('d-none');
+        if(!dvDocumentFileUpload.classList.contains('d-none')){
+            inputDocumentFile.value = '';
+        }
+    });
+
+    //if click change_voucher_file
+    const changeVoucherFile = document.getElementById('change_voucher_file');
+    const dvVoucherFile = document.getElementById('dv_voucher_file');
+    const inputVoucherFile = document.getElementById('voucher_file');
+
+    changeVoucherFile.addEventListener('click', (event) => {
+        event.preventDefault();
+        dvVoucherFile.classList.toggle('d-none');
+        if(!dvVoucherFile.classList.contains('d-none')){
+            inputVoucherFile.value = '';
         }
     });
 
