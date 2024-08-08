@@ -102,7 +102,7 @@
                             </div>
 
                             <div class="col-md-4">
-                                <label class="form-label fw-bold mb-0">{{__("Ciudad")}}:</label><br>
+                                <label class="form-label fw-bold mb-0">{{__("Distrito/Ciudad")}}:</label><br>
                                 <span class="bx-text">{{ $inscription->user_city }}</span>
                             </div>
 
@@ -295,7 +295,8 @@
                                     <div class="">
                                         {{ $inscription->payment_method }}
                                     </div>
-                                    @if ($inscription->payment_method == 'Transferencia/Depósito')
+
+                                    @if($inscription->voucher_file != null || $inscription->voucher_file != '')
                                         <div class="row mt-1">
                                             <div class="col-md-12">
                                                 <div class="mt-1">
@@ -387,7 +388,7 @@
 
 
                             <div class="col-md-5 text-end align-self-end">
-                                
+
                                 @if(\Auth::user()->hasRole('Administrador') || \Auth::user()->hasRole('Secretaria'))
 
                                     @if($inscription->status == 'Pagado' && $inscription->status_compr == 'Ninguna' )
@@ -399,17 +400,17 @@
                                     @if($inscription->status_compr == 'Pendiente' || $inscription->status_compr == 'Procesando')
                                         <span class="badge badge-light-warning">Generando Comprobante...</span>
                                     @endif
-                                
+
                                 @endif
 
                                 @if($inscription->status_compr == 'Informado')
                                     <span class="badge badge-light-success">Comprobante Emitido: {{ $inscription->num_compr }}</span><br>
                                     @if($inscription->compr_pdf == 'T')
-                                        <a href="{{ asset('storage/uploads/comprobantes_file').'/'.$inscription->num_compr.'.pdf'}}" target="_blank" class="text-info">{{__("PDF")}}</a> 
+                                        <a href="{{ asset('storage/uploads/comprobantes_file').'/'.$inscription->num_compr.'.pdf'}}" target="_blank" class="text-info">{{__("PDF")}}</a>
                                     @endif
 
                                     @if($inscription->compr_xml == 'T')
-                                        | <a href="{{ asset('storage/uploads/comprobantes_file').'/'.$inscription->num_compr.'.zip'}}" target="_blank" class="text-info">{{__("XML")}}</a> 
+                                        | <a href="{{ asset('storage/uploads/comprobantes_file').'/'.$inscription->num_compr.'.zip'}}" target="_blank" class="text-info">{{__("XML")}}</a>
                                     @endif
 
                                     @if($inscription->compr_cdr == 'T')

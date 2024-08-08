@@ -80,7 +80,7 @@
                                 {!!$errors->first("state", "<span class='text-danger'>:message</span>")!!}
                             </div>
                             <div class="col-md-4">
-                                <label for="inputCity" class="form-label fw-bold">{{__("Ciudad")}}</label>
+                                <label for="inputCity" class="form-label fw-bold">{{__("Distrito/Ciudad")}}</label>
                                 <input type="text" name="city" class="form-control" id="inputCity" value="{{$user->city}}" required>
                                 {!!$errors->first("city", "<span class='text-danger'>:message</span>")!!}
                             </div>

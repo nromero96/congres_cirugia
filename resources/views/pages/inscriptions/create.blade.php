@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="inputLastName" class="form-label fw-bold">{{__("Apellido paterno")}}:</label>
-                                <p class="form-control">{{$user->lastname}}</p>  
+                                <p class="form-control">{{$user->lastname}}</p>
                             </div>
                             <div class="col-md-4">
                                 <label for="inputSecondLastName" class="form-label fw-bold">{{__("Apellido materno")}}:</label>
@@ -271,7 +271,7 @@
                                     <div id="dv_card" class="pt-4 pb-4 d-none">
                                         <p class="text-center">
                                             <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
-                                                Realiza tu pago con cualquier tarjeta de crédito o débito.<br> se le enviará un link de pago a su correo electrónico.
+                                                Realiza tu pago con cualquier tarjeta de crédito o débito.<br> Proximamente enviaremos link de pago seguro por e-mail para completar su inscripción.
                                             </div>
                                         </p>
                                     </div>

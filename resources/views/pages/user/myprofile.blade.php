@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="widget-content widget-content-area pt-0">
-                        
+
                         @if ($user->confir_information)
                         <div class="row g-3">
                             <div class="col-md-4">
@@ -66,7 +66,7 @@
                                 <p class="form-control">{{ $user->state }}</p>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-bold">{{__("Ciudad")}}</label>
+                                <label class="form-label fw-bold">{{__("Distrito/Ciudad")}}</label>
                                 <p class="form-control">{{$user->city}}</p>
                             </div>
                             <div class="col-md-8">
@@ -175,7 +175,7 @@
                                 {!!$errors->first("state", "<span class='text-danger'>:message</span>")!!}
                             </div>
                             <div class="col-md-4">
-                                <label for="inputCity" class="form-label fw-bold">{{__("Ciudad")}}</label>
+                                <label for="inputCity" class="form-label fw-bold">{{__("Distrito/Ciudad")}}</label>
                                 <input type="text" name="city" class="form-control" id="inputCity" value="{{$user->city}}" required>
                                 {!!$errors->first("city", "<span class='text-danger'>:message</span>")!!}
                             </div>

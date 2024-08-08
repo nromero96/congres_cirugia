@@ -96,7 +96,7 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold mb-0">{{__("Ciudad")}}:</label><br>
+                                    <label class="form-label fw-bold mb-0">{{__("Distrito/Ciudad")}}:</label><br>
                                     <span class="bx-text">{{ $inscription->user_city }}</span>
                                 </div>
 
@@ -239,7 +239,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                     <div id="dv_document_file">
                                         <label class="form-label mt-3">
                                         <span class="fw-bold">{{ __('Documento probatorio de categoría ') }} ({{ $inscription->category_inscription_name }}):</span></label><br>
@@ -258,7 +258,7 @@
                                             <input type="file" name="document_file" class="form-control form-control-sm mt-1 p-1" id="document_file">
                                         </div>
                                     </div>
-                                    
+
 
                                 </div>
 
@@ -299,7 +299,8 @@
                                         <div class="">
                                             {{ $inscription->payment_method }}
                                         </div>
-                                        @if ($inscription->payment_method == 'Transferencia/Depósito')
+
+                                        @if($inscription->voucher_file != null || $inscription->voucher_file != '')
                                             <div class="row mt-1">
                                                 <div class="col-md-12">
                                                     <div class="mt-1">
@@ -366,7 +367,7 @@
 
 
                                 <div class="col-md-5 text-end align-self-end">
-                                    
+
                                     @if(\Auth::user()->hasRole('Administrador') || \Auth::user()->hasRole('Secretaria'))
 
                                         @if($inscription->status_compr != 'Informado' )
@@ -374,13 +375,13 @@
                                                 <a href="{{ route('inscriptions.show', $inscription->id) }}" class="btn btn-secondary mt-2">
                                                     {{ __('Cancelar') }}
                                                 </a>
-                                                
+
                                                 <button type="submit" class="btn btn-primary mt-2">
                                                     {{ __('Actualizar') }}
                                                 </button>
                                             </div>
                                         @endif
-                                    
+
                                     @endif
 
                                 </div>
@@ -417,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const accompanistSolapin = document.getElementById('accompanist_solapin');
     const dvSpecialCode = document.getElementById('dv_special_code');
     const specialCode = document.getElementById('special_code');
-        
+
 
     // Acción para categoryInscriptionId
     categoryInscriptionId.addEventListener('change', (event) => {
