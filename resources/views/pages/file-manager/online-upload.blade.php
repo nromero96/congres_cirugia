@@ -151,8 +151,8 @@
     <script src="{{ asset('plugins/src/global/vendors.min.js')}} "></script>
     <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{ asset('plugins/src/filepond/filepond.min.js') }}"></script>
-    <script src="{{ asset('plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
-    <script src="{{ asset('plugins/src/filepond/FilePondPluginFileValidateSize.min.js') }}"></script>
+    <script src="{{ asset('plugins/src/filepond/filePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('plugins/src/filepond/filePondPluginFileValidateSize.min.js') }}"></script>
 
 
     <script>
