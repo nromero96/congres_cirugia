@@ -197,6 +197,21 @@
             </li>
             @endcan
 
+            @can('filemanager.index')
+            <li class="menu {{ ($category_name === 'filemanager') ? 'active' : '' }}">
+                <a href="{{route('filemanager.index')}}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 8v13H3V8"></path>
+                            <path d="M1 3h22v5H1z"></path>
+                            <path d="M10 12h4"></path>
+                          </svg>
+                        <span>{{ __("Archivos") }}</span>
+                    </div>
+                </a>
+            </li>
+            @endcan
+
             @can('specialcodes.index')
             <li class="menu {{ ($category_name === 'specialcodes') ? 'active' : '' }}">
                 <a href="{{route('specialcodes.index')}}" aria-expanded="false" class="dropdown-toggle">

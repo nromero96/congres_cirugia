@@ -27,6 +27,7 @@ use App\Http\Controllers\ProgramSessionController;
 use App\Http\Controllers\PosterController;
 use App\Http\Controllers\GafeteController;
 use App\Http\Controllers\CertificadoController;
+use App\Http\Controllers\FileManagerController;
 
 
 use Illuminate\Support\Facades\Artisan;
@@ -98,7 +99,14 @@ Route::get('/online-form-invitations', [InvitationController::class, 'showOnline
 Route::post('/send-invitation', [InvitationController::class, 'sendInvitation'])->name('invitationsend');
 
 Route::get('getcountry', [App\Http\Controllers\CountryStateController::class, 'getcountry'])->name('getcountry');
+
 Route::post('upload',[UploadController::class, 'store']);
+Route::delete('delete-file', [UploadController::class, 'deleteFile']);
+
+Route::get('online-file-upload', [FileManagerController::class, 'viewOnlineRegisterFile'])->name('filemanager.onlineupload');
+Route::post('verificar-clave-pagina', [FileManagerController::class, 'verificarClave'])->name('verificar-clave-pagina');
+
+Route::post('store-online-register-file', [FileManagerController::class, 'storeOnlineRegisterFile'])->name('filemanager.storeonlinefile');
 
 //Search Online Posters
 Route::get('online-search-posters', [PosterController::class, 'searchPostersPage'])->name('searchPostersPage');
@@ -113,7 +121,7 @@ Route::group(['middleware' => ['auth', 'ensureStatusActive']], function () {
     });
 
     //Search Online Posters
-Route::get('online-search-posters', [PosterController::class, 'searchPostersPage'])->name('searchPostersPage');
+    Route::get('online-search-posters', [PosterController::class, 'searchPostersPage'])->name('searchPostersPage');
 
     // $this->middleware
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
@@ -123,7 +131,7 @@ Route::get('online-search-posters', [PosterController::class, 'searchPostersPage
 
     //Users
     Route::resource('users', UserController::class)->names('users');
-    
+
     //Roles
     Route::resource('roles', RoleController::class)->names('roles');
 
@@ -153,7 +161,7 @@ Route::get('online-search-posters', [PosterController::class, 'searchPostersPage
     Route::put('works/{id}/update-status', [WorkController::class, 'updateStatus'])->name('works.updatestatus');
     Route::get('/exportar-excel-works', [WorkController::class, 'exportExcelWorks'])->name('works.exportexcel');
     Route::put('sendmail-workaccepted/{id}', [WorkController::class, 'sendMailWorkAccepted'])->name('works.sendmailworkaccepted');
-    
+
     //Posters
     Route::resource('posters', PosterController::class)->names('posters');
     //poster.upload
@@ -216,6 +224,9 @@ Route::get('online-search-posters', [PosterController::class, 'searchPostersPage
     Route::get('my-certicate/{id}', [CertificadoController::class, 'my_certicate'])->name('certificates.mycertificate');
     Route::get('certicate-for', [CertificadoController::class, 'certicate_for'])->name('certificates.certificatefor');
     Route::get('list-certicates', [CertificadoController::class, 'list_certicates'])->name('certificates.listcertificates');
+
+    //File Manager
+    Route::get('file-manager', [FileManagerController::class, 'index'])->name('filemanager.index');
 
 });
 

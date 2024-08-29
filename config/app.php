@@ -123,6 +123,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'secret_page_key' => env('SECRET_PAGE_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
