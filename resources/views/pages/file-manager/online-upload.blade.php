@@ -182,12 +182,13 @@
                 labelTapToCancel: locale_es.labelTapToCancel,
                 labelTapToRetry: locale_es.labelTapToRetry,
                 labelTapToUndo: locale_es.labelTapToUndo,
-                //Aceptar ppt, pdf, mp4
-                acceptedFileTypes: ['application/pdf', 'application/vnd.ms-powerpoint', 'video/mp4'],
+                //Aceptar pptx, ppt, pdf, mp4
+                acceptedFileTypes: ['application/pdf', 'application/vnd.ms-powerpoint', 'video/mp4', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
                 fileValidateTypeLabelExpectedTypesMap: {
                     'application/pdf': '.pdf',
                     'application/vnd.ms-powerpoint': '.ppt',
                     'video/mp4': '.mp4',
+                    'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
                 },
                 maxFileSize: '150MB', // Tamaño máximo permitido
                 onaddfilestart: () => {
