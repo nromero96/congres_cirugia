@@ -253,7 +253,7 @@
                                         <p class="text-center"><img src="{{ asset('assets/img/Interbank_logo.png') }}" style="width: 180px;border-radius: 10px;"></p>
                                         <h5 class="text-center"><b>122-3001576538</b></h5>
                                         <p class="text-center">
-                                            <b>Cta. Cte. Dólares:</b> 194-2143692-1-63<br>
+                                            <b>Cta. Cte. Dólares:</b> 122-3001576538<br>
                                             <b>CCI:</b> 003-122-003001576538-98<br>
                                         </p>
                                         <div class="row">
