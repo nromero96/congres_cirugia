@@ -148,6 +148,9 @@ Route::group(['middleware' => ['auth', 'ensureStatusActive']], function () {
     Route::post('/inscriptions-request-comprobante/{id}', [InscriptionController::class, 'requestComprobante'])->name('inscriptions.requestcomprobante');
     Route::get('/exportar-excel-inscriptions', [InscriptionController::class, 'exportExcelInscriptions'])->name('inscriptions.exportexcel');
 
+    Route::get('/manual-registration-participant', [InscriptionController::class, 'formManualRegistrationParticipant'])->name('inscriptions.manualregistrationparticipant');
+    Route::post('/store-manual-registration-participant', [InscriptionController::class, 'storeManualRegistrationParticipant'])->name('inscriptions.storemanualregistrationparticipant');
+
     Route::get('payment-niubiz/{inscription}', [InscriptionController::class, 'paymentNiubiz'])->name('inscriptions.paymentniubiz');
     Route::post('confirm-payment-niubiz', [InscriptionController::class, 'confirmPaymentNiubiz'])->name('inscriptions.confirmpaymentniubiz');
 

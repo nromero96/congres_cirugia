@@ -14,6 +14,7 @@ use App\Models\Accompanist;
 use App\Models\Statusnote;
 use App\Models\SpecialCode;
 use App\Models\BeneficiarioBeca;
+use App\Models\Country;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 use Illuminate\Support\Facades\Log;
 
@@ -590,6 +593,157 @@ class InscriptionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function formManualRegistrationParticipant(){
+        $id = \Auth::user()->id;
+
+        $data = [
+            'category_name' => 'inscriptions',
+            'page_name' => 'inscriptions_manual',
+            'has_scrollspy' => 0,
+            'scrollspy_offset' => '',
+        ];
+
+        //get CategoryInscription
+        $category_inscriptions = CategoryInscription::orderBy('order', 'asc')->get();
+        $countries = Country::orderBy('name', 'asc')->get();
+
+        $user = User::find($id);
+
+        //verificar si usuario logeado es BeneficiarioBeca por email tru o false
+        $beneficiariobeca = BeneficiarioBeca::where('email', $user->email)->first();
+        if($beneficiariobeca){
+            $data['beneficiariobeca'] = 'si';
+        }else{
+            $data['beneficiariobeca'] = 'no';
+        }
+
+        //solo los roles de Administrador y Secretaria pueden ver esta vista
+        if (\Auth::user()->hasRole('Administrador') || \Auth::user()->hasRole('Secretaria')) {
+            return view('pages.inscriptions.manual-registration-participant')->with($data)->with('category_inscriptions', $category_inscriptions)->with('countries', $countries)->with('beneficiariobeca', $beneficiariobeca);
+        }else{
+            return redirect()->route('inscriptions.index')->with('error', 'No tiene permisos para ver esta vista');
+        }
+
+
+    }
+
+    public function storeManualRegistrationParticipant(Request $request){
+
+        // Validación email único
+        $validatedData = $request->validate([
+            'email' => 'required|email|unique:users,email',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // Registrar usuario y devolver ID
+            $user = new User();
+            $user->name = $request->name ?? '';
+            $user->lastname = $request->lastname ?? '';
+            $user->second_lastname = $request->second_lastname ?? '';
+            $user->email = $request->email ?? '';
+            $user->document_type = $request->document_type ?? '';
+            $user->document_number = $request->document_number ?? '';
+            $user->country = $request->country ?? '';
+            $user->password = bcrypt($request->inputPassword) ?? '';
+            $user->solapin_name = $request->inputSolapin ?? '';
+            $user->photo = 'default-profile.jpg';
+            $user->status = 'active';
+            $user->save();
+            $user->assignRole('Participante');
+            $iduser = $user->id;
+
+            // Insertar inscripción
+            $inscription = new Inscription();
+            $inscription->user_id = $iduser;
+            $inscription->category_inscription_id = $request->category_inscription_id;
+
+            $category_inscription = CategoryInscription::find($request->category_inscription_id);
+
+            $inscription->price_category = $category_inscription->price;
+            $inscription->price_accompanist = 0;
+            $inscription->total = $inscription->price_category + $inscription->price_accompanist;
+            $inscription->special_code = $request->specialcode;
+            $inscription->invoice = $request->invoice;
+            $inscription->invoice_ruc = $request->invoice_ruc;
+            $inscription->invoice_social_reason = $request->invoice_social_reason;
+            $inscription->invoice_address = $request->invoice_address;
+            $inscription->payment_method = $request->payment_method;
+            $inscription->voucher_file = '';
+            $inscription->save();
+
+            // Manejo de documentos temporales
+            $temporaryfile_document_file = TemporaryFile::where('folder', $request->document_file)->first();
+            if ($temporaryfile_document_file) {
+                Storage::move('public/uploads/tmp/'.$request->document_file.'/'.$temporaryfile_document_file->filename, 'public/uploads/document_file/'.$temporaryfile_document_file->filename);
+                $inscription->document_file = $temporaryfile_document_file->filename;
+                $inscription->save();
+                rmdir(storage_path('app/public/uploads/tmp/'.$request->document_file));
+                $temporaryfile_document_file->delete();
+            }
+
+            $temporaryfile_voucher_file = TemporaryFile::where('folder', $request->voucher_file)->first();
+            if ($temporaryfile_voucher_file) {
+                Storage::move('public/uploads/tmp/'.$request->voucher_file.'/'.$temporaryfile_voucher_file->filename, 'public/uploads/voucher_file/'.$temporaryfile_voucher_file->filename);
+                $inscription->voucher_file = $temporaryfile_voucher_file->filename;
+                $inscription->save();
+                rmdir(storage_path('app/public/uploads/tmp/'.$request->voucher_file));
+                $temporaryfile_voucher_file->delete();
+            }
+
+            if ($request->payment_method == 'Transferencia/Depósito') {
+                $inscription->status = 'Procesando';
+                $inscription->save();
+
+                // Enviar correo
+                $user = User::find($iduser);
+                $datainscription = Inscription::join('category_inscriptions', 'inscriptions.category_inscription_id', '=', 'category_inscriptions.id')
+                    ->select('inscriptions.*', 'category_inscriptions.name as category_inscription_name')
+                    ->where('inscriptions.id', $inscription->id)
+                    ->first();
+                $data = [
+                    'user' => $user,
+                    'datainscription' => $datainscription,
+                ];
+
+                Mail::to($user->email)
+                    ->cc(config('services.correonotificacion.inscripcion'))
+                    ->send(new \App\Mail\InscriptionCreated($data));
+
+                DB::commit(); // Confirmar la transacción
+                return redirect()->route('inscriptions.index')->with('success', 'Inscripción realizada con éxito');
+            } else if ($request->payment_method == 'Tarjeta') {
+                $inscription->status = 'Pendiente';
+                $inscription->save();
+
+                // Enviar correo
+                $user = User::find($iduser);
+                $datainscription = Inscription::join('category_inscriptions', 'inscriptions.category_inscription_id', '=', 'category_inscriptions.id')
+                    ->select('inscriptions.*', 'category_inscriptions.name as category_inscription_name')
+                    ->where('inscriptions.id', $inscription->id)
+                    ->first();
+                $data = [
+                    'user' => $user,
+                    'datainscription' => $datainscription,
+                ];
+
+                Mail::to($user->email)
+                    ->cc(config('services.correonotificacion.inscripcion'))
+                    ->send(new \App\Mail\InscriptionCreated($data));
+
+                DB::commit(); // Confirmar la transacción
+                return redirect()->route('inscriptions.index')->with('success', 'Inscripción realizada con éxito');
+            }
+
+        } catch (\Exception $e) {
+            DB::rollBack(); // Revertir la transacción en caso de error
+            Log::error('Error en el registro manual: '.$e->getMessage());
+            return redirect()->back()->with('error', 'Ocurrió un error al realizar la inscripción.');
+        }
     }
 
 

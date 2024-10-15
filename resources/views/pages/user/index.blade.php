@@ -37,7 +37,7 @@
                             </div>
                         </form>
                     </div>
-                
+
                     <div class="widget-content widget-content-area pt-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped table-bordered" id="inscrip-list">
@@ -46,6 +46,7 @@
                                         <th scope="col">{{__("ID")}}</th>
                                         <th scope="col">{{__("Nombre")}}</th>
                                         <th scope="col">{{__("Rol")}}</th>
+                                        <th scope="col">{{__("Fecha")}}</th>
                                         <th class="text-center" scope="col">{{__("Estado")}}</th>
                                         <th class="text-center" scope="col"></th>
                                     </tr>
@@ -72,6 +73,7 @@
                                                     @endforeach
                                                 @endif
                                             </td>
+                                            <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
                                             <td class="text-center">
                                                 <span class="badge {{$item->status == 'active' ? 'badge-light-success' : 'badge-light-danger'}} text-capitalize">{{$item->status}}</span>
                                             </td>
