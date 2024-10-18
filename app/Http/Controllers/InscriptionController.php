@@ -298,21 +298,24 @@ class InscriptionController extends Controller
         $inscription->voucher_file = '';
         $inscription->save();
 
-        $temporaryfile_document_file = TemporaryFile::where('folder', $request->document_file)->first();
+        //$request->document_file estarer solo lo que esta dentro de la comillas ["6712c41ae74fc-1729283098"]
+        $documentFile = trim($request->document_file, '[]"');
+        $temporaryfile_document_file = TemporaryFile::where('folder', $documentFile)->first();
         if($temporaryfile_document_file){
-            Storage::move('public/uploads/tmp/'.$request->document_file.'/'.$temporaryfile_document_file->filename, 'public/uploads/document_file/'.$temporaryfile_document_file->filename);
+            Storage::move('public/uploads/tmp/'.$documentFile.'/'.$temporaryfile_document_file->filename, 'public/uploads/document_file/'.$temporaryfile_document_file->filename);
             $inscription->document_file = $temporaryfile_document_file->filename;
             $inscription->save();
-            rmdir(storage_path('app/public/uploads/tmp/'.$request->document_file));
+            rmdir(storage_path('app/public/uploads/tmp/'.$documentFile));
             $temporaryfile_document_file->delete();
         }
 
-        $temporaryfile_voucher_file = TemporaryFile::where('folder', $request->voucher_file)->first();
+        $voucherFile = trim($request->voucher_file, '[]"');
+        $temporaryfile_voucher_file = TemporaryFile::where('folder', $voucherFile)->first();
         if($temporaryfile_voucher_file){
-            Storage::move('public/uploads/tmp/'.$request->voucher_file.'/'.$temporaryfile_voucher_file->filename, 'public/uploads/voucher_file/'.$temporaryfile_voucher_file->filename);
+            Storage::move('public/uploads/tmp/'.$voucherFile.'/'.$temporaryfile_voucher_file->filename, 'public/uploads/voucher_file/'.$temporaryfile_voucher_file->filename);
             $inscription->voucher_file = $temporaryfile_voucher_file->filename;
             $inscription->save();
-            rmdir(storage_path('app/public/uploads/tmp/'.$request->voucher_file));
+            rmdir(storage_path('app/public/uploads/tmp/'.$voucherFile));
             $temporaryfile_voucher_file->delete();
         }
 
@@ -677,21 +680,23 @@ class InscriptionController extends Controller
             $inscription->save();
 
             // Manejo de documentos temporales
-            $temporaryfile_document_file = TemporaryFile::where('folder', $request->document_file)->first();
+            $documentFile = trim($request->document_file, '[]"');
+            $temporaryfile_document_file = TemporaryFile::where('folder', $documentFile)->first();
             if ($temporaryfile_document_file) {
-                Storage::move('public/uploads/tmp/'.$request->document_file.'/'.$temporaryfile_document_file->filename, 'public/uploads/document_file/'.$temporaryfile_document_file->filename);
+                Storage::move('public/uploads/tmp/'.$documentFile.'/'.$temporaryfile_document_file->filename, 'public/uploads/document_file/'.$temporaryfile_document_file->filename);
                 $inscription->document_file = $temporaryfile_document_file->filename;
                 $inscription->save();
-                rmdir(storage_path('app/public/uploads/tmp/'.$request->document_file));
+                rmdir(storage_path('app/public/uploads/tmp/'.$documentFile));
                 $temporaryfile_document_file->delete();
             }
 
-            $temporaryfile_voucher_file = TemporaryFile::where('folder', $request->voucher_file)->first();
+            $voucherFile = trim($request->voucher_file, '[]"');
+            $temporaryfile_voucher_file = TemporaryFile::where('folder', $voucherFile)->first();
             if ($temporaryfile_voucher_file) {
-                Storage::move('public/uploads/tmp/'.$request->voucher_file.'/'.$temporaryfile_voucher_file->filename, 'public/uploads/voucher_file/'.$temporaryfile_voucher_file->filename);
+                Storage::move('public/uploads/tmp/'.$voucherFile.'/'.$temporaryfile_voucher_file->filename, 'public/uploads/voucher_file/'.$temporaryfile_voucher_file->filename);
                 $inscription->voucher_file = $temporaryfile_voucher_file->filename;
                 $inscription->save();
-                rmdir(storage_path('app/public/uploads/tmp/'.$request->voucher_file));
+                rmdir(storage_path('app/public/uploads/tmp/'.$voucherFile));
                 $temporaryfile_voucher_file->delete();
             }
 
