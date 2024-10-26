@@ -377,7 +377,7 @@ class InscriptionController extends Controller
 
             //redirect to payment page with inscription id
             //return redirect()->route('inscriptions.paymentniubiz', ['inscription' => $inscription->id]);
-            return redirect()->route('inscriptions.show', ['inscription' => $inscription->id])->with('success', 'Inscripción realizada con éxito');
+            return redirect()->route('inscriptions.show', ['inscription' => $inscription->id])->with('success', 'Inscripción realizada con éxito, validaremos tu pago en breve');
         }
 
 

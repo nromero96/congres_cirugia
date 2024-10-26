@@ -252,6 +252,12 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12">
+                                <div class="alert alert-warning mb-0" role="alert">
+                                    <span>En el siguiente paso, deberá <b>elegir la categoría</b> a la que desea inscribirse y <b>adjuntar el comprobante de pago</b> junto con los documentos solicitados para completar su inscripción.</span>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <input type="hidden" name="photo">
                                 <button type="submit" class="btn btn-primary">{{__("Continuar")}}</button>
